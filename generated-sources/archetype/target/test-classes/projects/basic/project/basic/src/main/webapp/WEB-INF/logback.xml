@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+    <!-- 先定义所有的appender -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </Pattern>
+        </layout>
+    </appender>
+
+    <!-- 输出到文件 -->
+    <!--<appender name="InfoRolling"-->
+              <!--class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+        <!--<file>/home/chenz/demo/log/info.log</file>-->
+        <!--<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+            <!--&lt;!&ndash; rollover daily &ndash;&gt;-->
+            <!--<fileNamePattern>/home/chenz/demo/log/info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+            <!--&lt;!&ndash; each file should be at most 100MB, keep 60 days worth of history, but at most 20GB &ndash;&gt;-->
+            <!--<maxFileSize>2MB</maxFileSize>-->
+            <!--<maxHistory>60</maxHistory>-->
+            <!--<totalSizeCap>20GB</totalSizeCap>-->
+        <!--</rollingPolicy>-->
+        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+            <!--<level>Info</level>-->
+            <!--<onMatch>ACCEPT</onMatch>-->
+            <!--<onMismatch>DENY</onMismatch>-->
+        <!--</filter>-->
+        <!--<encoder>-->
+            <!--<pattern>%d{yyyy-MM-dd HH:mm:ss} %-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+
+    <!--输出到数据库-->
+    <!--<appender name="DB" class="ch.qos.logback.classic.db.DBAppender">-->
+        <!--<connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">-->
+            <!--<dataSource-->
+                    <!--class="org.apache.commons.dbcp.BasicDataSource">-->
+                <!--<driverClass>com.mysql.jdbc.Driver</driverClass>-->
+                <!--&lt;!&ndash;<url>jdbc:mysql://157.255.157.35:3306/demo_log?characterEncoding=utf8</url>&ndash;&gt;-->
+                <!--<url>jdbc:mysql://10.10.1.25:3306/demo_log?characterEncoding=utf8</url>-->
+                <!--<user>root</user>-->
+                <!--<password>gdyl2017</password>-->
+            <!--</dataSource>-->
+        <!--</connectionSource>-->
+    <!--</appender>-->
+
+    <root level="TRADE">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+    <!--<logger name="com.ylkj.UcomWechat.controller.ucomwechat.pay.WexinPayResultController" level="INFO" >-->
+        <!--<appender-ref ref="STDOUT" />-->
+        <!--<appender-ref ref="WechatPayResultInfoRolling"/>-->
+        <!--<appender-ref ref="WechatPayResultErrorRolling"/>-->
+        <!--<appender-ref ref="DB"/>-->
+    <!--</logger>-->
+
+</configuration>

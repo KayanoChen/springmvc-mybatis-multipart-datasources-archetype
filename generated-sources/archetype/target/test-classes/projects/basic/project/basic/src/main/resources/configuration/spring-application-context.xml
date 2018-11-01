@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans.xsd
+             http://www.springframework.org/schema/util
+             http://www.springframework.org/schema/util/spring-util.xsd
+             http://www.springframework.org/schema/tx
+             http://www.springframework.org/schema/tx/spring-tx.xsd
+             http://www.springframework.org/schema/context
+             http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- jdbc configuration -->
+    <util:properties id="dbConfig" location="classpath:/configuration/jdbc.properties" />
+
+    <!-- datasource0 -->
+    <bean id="dataSource0" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="#{dbConfig['datasource0.driver']}"/>
+        <property name="url" value="#{dbConfig['datasource0.url']}"/>
+        <property name="username" value="#{dbConfig['datasource0.user']}"/>
+        <property name="password" value="#{dbConfig['datasource0.password']}"/>
+        <property name="maxActive" value="#{dbConfig['datasource0.maxActive']}"/>
+        <property name="minIdle" value="#{dbConfig['datasource0.minIdle']}"/>
+        <property name="maxWait" value="#{dbConfig['datasource0.maxWait']}"/>
+        <property name="timeBetweenEvictionRunsMillis" value="#{dbConfig['datasource0.timeBetweenEvictionRunsMillis']}"/>
+        <property name="testWhileIdle" value="#{dbConfig['datasource0.testWhileIdle']}"/>
+        <property name="filters" value="#{dbConfig['datasource0.filters']}"/>
+        <property name="validationQuery" value="#{dbConfig['datasource0.validationQuery']}"/>
+    </bean>
+
+    <bean id="datasource0SqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="configLocation" value="classpath:/configuration/spring-mybatis-config-datasource0.xml" />
+        <property name="dataSource" ref="dataSource0" />
+    </bean>
+
+    <bean id="datasource0MapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="it.pkg.mapper.datasource0"/>
+        <property name="sqlSessionFactoryBeanName" value="datasource0SqlSessionFactory"/>
+    </bean>
+
+    <!-- datasource1 -->
+    <bean id="dataSource1" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="#{dbConfig['datasource1.driver']}"/>
+        <property name="url" value="#{dbConfig['datasource1.url']}"/>
+        <property name="username" value="#{dbConfig['datasource1.user']}"/>
+        <property name="password" value="#{dbConfig['datasource1.password']}"/>
+        <property name="maxActive" value="#{dbConfig['datasource1.maxActive']}"/>
+        <property name="minIdle" value="#{dbConfig['datasource1.minIdle']}"/>
+        <property name="maxWait" value="#{dbConfig['datasource1.maxWait']}"/>
+        <property name="timeBetweenEvictionRunsMillis" value="#{dbConfig['datasource1.timeBetweenEvictionRunsMillis']}"/>
+        <property name="testWhileIdle" value="#{dbConfig['datasource1.testWhileIdle']}"/>
+        <property name="filters" value="#{dbConfig['datasource1.filters']}"/>
+        <property name="validationQuery" value="#{dbConfig['datasource1.validationQuery']}"/>
+    </bean>
+
+    <bean id="datasource1SqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="configLocation" value="classpath:/configuration/spring-mybatis-config-datasource1.xml" />
+        <property name="dataSource" ref="dataSource1" />
+    </bean>
+
+    <bean id="datasource1MapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="it.pkg.mapper.datasource1"/>
+        <property name="sqlSessionFactoryBeanName" value="datasource1SqlSessionFactory"/>
+    </bean>
+
+    <!-- transaction support-->
+    <!-- transactionMnager -->
+    <bean id="dataSource0TxManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource0" />
+    </bean>
+    <!-- enable transaction annotation support -->
+    <tx:annotation-driven transaction-manager="dataSource0TxManager" />
+
+    <bean id="dataSource1TxManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource1" />
+    </bean>
+    <tx:annotation-driven transaction-manager="dataSource1TxManager" />
+
+    <context:component-scan base-package="it.pkg"/>
+
+</beans>
